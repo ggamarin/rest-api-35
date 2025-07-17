@@ -6,8 +6,7 @@ import io.restassured.specification.ResponseSpecification;
 
 import static helpers.CustomAllureListener.withCustomTemplates;
 import static io.restassured.RestAssured.with;
-import static io.restassured.filter.log.LogDetail.BODY;
-import static io.restassured.filter.log.LogDetail.STATUS;
+import static io.restassured.filter.log.LogDetail.*;
 import static io.restassured.http.ContentType.JSON;
 
 public class UserSpec {
@@ -18,21 +17,18 @@ public class UserSpec {
             .contentType(JSON)
             .header("x-api-key", "reqres-free-v1");
 
-    public static ResponseSpecification userSuccessfulCreationResponseSpec = new ResponseSpecBuilder()
+    public static ResponseSpecification  responseSpec201 = new ResponseSpecBuilder()
             .expectStatusCode(201)
-            .log(STATUS)
-            .log(BODY)
+            .log(ALL)
             .build();
 
-    public static ResponseSpecification userSuccessfulUpdatingResponseSpec = new ResponseSpecBuilder()
+    public static ResponseSpecification  responseSpec200 = new ResponseSpecBuilder()
             .expectStatusCode(200)
-            .log(STATUS)
-            .log(BODY)
+           .log(ALL)
             .build();
 
-    public static ResponseSpecification userSuccessfulDeletingResponseSpec = new ResponseSpecBuilder()
+    public static ResponseSpecification  responseSpec204 = new ResponseSpecBuilder()
             .expectStatusCode(204)
-            .log(STATUS)
-            .log(BODY)
+           .log(ALL)
             .build();
 }

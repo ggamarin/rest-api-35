@@ -4,7 +4,6 @@ import io.restassured.response.Response;
 import models.UserCreationModel;
 import models.UserUpdateModel;
 import models.UserDataModel;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +22,7 @@ public class ApiTests extends TestBase {
                         .queryParam("page", "2")
                         .get("/users")
                         .then()
-                        .statusCode(200)
+                        .spec(responseSpec200)
                         .extract().response()
         );
         step("Проверка ответа", () -> {
@@ -44,7 +43,7 @@ public class ApiTests extends TestBase {
                         .when()
                         .post("/users")
                         .then()
-                        .spec(userSuccessfulCreationResponseSpec)
+                        .spec(responseSpec201)
                         .extract().as(UserCreationModel.class));
         step("Проверка ответа", () -> {
             assertThat(response.getName(), is(authData.getName()));
@@ -65,7 +64,7 @@ public class ApiTests extends TestBase {
                         .when()
                         .patch("/users/2")
                         .then()
-                        .spec(userSuccessfulUpdatingResponseSpec)
+                        .spec(responseSpec200)
                         .extract().as(UserUpdateModel.class));
         step("Проверка ответа", () -> {
             assertThat(response.getName(), is(notNullValue()));
@@ -88,7 +87,7 @@ public class ApiTests extends TestBase {
                         .when()
                         .put("/users/2")
                         .then()
-                        .spec(userSuccessfulUpdatingResponseSpec)
+                        .spec(responseSpec200)
                         .extract().as(UserUpdateModel.class));
 
         step("Проверка ответа", () -> {
@@ -112,7 +111,7 @@ public class ApiTests extends TestBase {
                         .when()
                         .delete("/users/2")
                         .then()
-                        .spec(userSuccessfulDeletingResponseSpec)
+                        .spec(responseSpec204)
                         .extract().response());
         step("Проверка ответа", () -> {
             assertThat(response.asString(), equalTo(""));
